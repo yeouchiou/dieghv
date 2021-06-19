@@ -61,10 +61,12 @@ if __name__ == "__main__":
         help="Format for output, either 'html' or 'text'")
     parser.add_argument(
         "--input", "-i", nargs='?', type=argparse.FileType('r'),
-        default=sys.stdin)
+        default=sys.stdin,
+        help="Input file, plain text format, else STDIN")
     parser.add_argument(
         "--output", "-o", nargs='?', type=argparse.FileType('w'),
-        default=sys.stdout)
+        default=sys.stdout,
+        help="Output file, else STDOUT")
     args = parser.parse_args()
 
     # Read dictionary file
