@@ -45,6 +45,7 @@ def read_dictfile(filename):
 
 
 def rubify(char, chardict):
+    """Annotate character with peng'im readings as ruby in HTML"""
     return(f"<ruby>{char}<rt>{'<br />'.join(chardict[char])}</rt></ruby>")
 
 
@@ -58,6 +59,12 @@ if __name__ == "__main__":
     parser.add_argument(
         "-f", "--format", default='html',
         help="Format for output, either 'html' or 'text'")
+    parser.add_argument(
+        "--input", "-i", nargs='?', type=argparse.FileType('r'),
+        default=sys.stdin)
+    parser.add_argument(
+        "--output", "-o", nargs='?', type=argparse.FileType('w'),
+        default=sys.stdout)
     args = parser.parse_args()
 
     # Read dictionary file
@@ -65,20 +72,21 @@ if __name__ == "__main__":
 
     # Output html
     if args.format == 'html':
-        print("<!DOCTYPE html>\n<html>\n<body>")
-        for line in sys.stdin:
+        out = []
+        args.output.write("<!DOCTYPE html>\n<html>\n<body>\n")
+        for line in args.input:
             outline = []
             for i in line.rstrip():
                 if i in chardict:
                     outline.append(rubify(i, chardict))
                 else:
                     outline.append(i)
-            print("<p>" + "".join(outline) + "</p>")
-        print("</body></html>")
+            args.output.write("<p>" + "".join(outline) + "</p>\n")
+        args.output.write("</body></html>\n")
 
     # Output plain text
     else:
-        for line in sys.stdin:
+        for line in args.input:
             outline = []
             for i in line.rstrip():
                 if i in chardict:
@@ -91,9 +99,9 @@ if __name__ == "__main__":
                     # outline.append("X")
                     outline.append(i)
             if line.rstrip() == "".join(outline):
-                print(line.rstrip())
-                print("---")
+                args.output.write(line.rstrip() + "\n")
+                args.output.write("---\n")
             else:
-                print(line.rstrip())
-                print("".join(outline))
-                print("---")
+                args.output.write(line.rstrip() + "\n")
+                args.output.write("".join(outline) + "\n")
+                args.output.write("---\n")
