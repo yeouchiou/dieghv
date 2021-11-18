@@ -81,7 +81,7 @@ speller:
     - abbrev/^(ng).+$/$1/
 
 translator:
-  dictionary: gekion
+  dictionary: GGNgekion
   spelling_hints: 5
   preedit_format:
     # 便捷鍵還原
