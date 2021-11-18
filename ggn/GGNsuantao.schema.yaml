@@ -87,7 +87,7 @@ speller:
     - abbrev/^(ng).+$/$1/
 
 translator:
-  dictionary: suantau
+  dictionary: GGNsuantau
   spelling_hints: 5
   preedit_format:
     # 便捷鍵還原
